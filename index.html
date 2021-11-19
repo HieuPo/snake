@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/index.css">
+  <script src="js/index.js"></script>
+  <title>Game</title>
+</head>
+<body>
+  <div id="score">
+  </div>
+  <div id="write">
+  </div>
+  <div id="write1">
+  </div>
+  <img id="tao" src="apple.png" alt="tao" />
+  <canvas id="canvas" width="300" height="200" style="border:2px solid red; background:#000000">
+  </canvas>
+  <div style="text-align:center">
+    <button id="len" style="text-align:center;padding:10px 10px">
+      ⏫
+    </button>
+  </div>
+  <div style="text-align:center">
+    <button id="phai" style="text-align:center;padding:10px 10px">
+      ⏪
+    </button>
+    <button id="stop" type="submit">🟧</button>
+    <button id="trai" style="text-align:center;padding:10px 10px">
+      ⏭️
+    </button>
+  </div>
+  <div style="text-align:center">
+    <button id="xuong" style="text-align:center;padding:10px 10px">
+      ⏬
+    </button>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    var score = document.getElementById("score")
+    var c = document.getElementById("canvas");
+    var tele = 0
+    var ctx = c.getContext("2d");
+    var btnxuong = document.getElementById('xuong')
+    var btnlen = document.getElementById('len')
+    var btntrai = document.getElementById('trai')
+    var btnphai = document.getElementById('phai')
+    var diem = 0
+    var nut = true
+    var i = 1;
+    var ramdomx = (Math.floor(Math.random() * (15-0)+1)*10)
+    var ramdomy = (Math.floor(Math.random() * (20-0)+1)*10)
+    var ramdomxt = (Math.floor(Math.random() * (15-0)+1)*10)
+    var ramdomyt = (Math.floor(Math.random() * (20-0)+1)*10)
+    var tao = document.getElementById('tao')
+    nhanvat = {
+      x: 150,
+      y: 100,
+      w: 10,
+      h: 10,
+    }
+    food = {
+      x: ramdomx,
+      y: ramdomy
+    }
+    food1 = {
+      x: ramdomx,
+      y: ramdomy
+    }
+
+    setInterval(start, 70)
+
+    function start() {
+      score.innerHTML = "Điểm : "+ diem
+      ctx.clearRect(0, 0, 1000, 1000)
+      ctx.beginPath();
+      ctx.rect(nhanvat.x, nhanvat.y, nhanvat.w, nhanvat.h);
+      if (diem == 10){
+        ctx.fillText("ghê vậy bro", canvas.width/2, canvas.height/2);
+      }
+      ctx.fillStyle = "red";
+      ctx.fill();
+      ctx.drawImage(tao, food.x, food.y, 10, 10)
+      if ((nhanvat.x == food.x) && (nhanvat.y == food.y)) {
+        diem++
+        tele = tele +1;
+        ramdomx = (Math.floor(Math.random() * (15-0)+1)*10)
+        ramdomy = (Math.floor(Math.random() * (10-0)+1)*10)
+        ramdomxt = (Math.floor(Math.random() * (15-0)+1)*10)
+        ramdomyt = (Math.floor(Math.random() * (10-0)+1)*10)
+        if ((tele % 2) != 0)
+          food.x = ramdomxt;
+        food.y = ramdomyt;
+      }
+      if ((tele % 2) == 0) {
+        food.x = ramdomx;
+        food.y = ramdomy;
+      }
+
+      if (nut) {
+        btnxuong.onclick = function() {
+          i = 1
+        }
+        btnlen.onclick = function() {
+          i = 2
+        }
+        btntrai.onclick = function() {
+          i = 3
+        }
+        btnphai.onclick = function() {
+          i = 4
+        }
+      }
+      if (i == 1) {
+        xuong()}
+      if (i == 2) {
+        len()}
+      if (i == 3) {
+        trai()}
+      if (i == 4) {
+        phai()}
+    }
+    if (nut) {
+      function xuong(argument) {
+        if (nhanvat.y < 200) {
+          nhanvat.y = nhanvat.y +10
+        }
+        if (nhanvat.y >= 200) {
+          gameOver()
+        }
+      }
+      function len(argument) {
+        if (nhanvat.y < 0) {
+          gameOver();
+        }
+        nhanvat.y = nhanvat.y -10
+      }
+      function trai() {
+        if (nhanvat.x >= 300) {
+          gameOver()
+        }
+        nhanvat.x = nhanvat.x +10;
+
+      }
+      function phai() {
+        if (nhanvat.x <= 0) {
+          gameOver()
+        }
+        nhanvat.x = nhanvat.x -10;
+      }
+    }
+    function gameOver() {
+      ctx.font = "30px Comic Sans MS";
+      ctx.fillStyle = "red";
+      ctx.textAlign = "center";
+      ctx.fillText("Game over", canvas.width/2, canvas.height/2);
+      setTimeout(function() {
+        nhanvat.x = 150; nhanvat.y = 100; nut = true
+      }, 2000);
+      nut = false
+      diem = 0
+      ramdomx = (Math.floor(Math.random() * (15-0)+1)*10)
+      ramdomy = (Math.floor(Math.random() * (20-0)+1)*10)
+      ramdomxt = (Math.floor(Math.random() * (15-0)+1)*10)
+      ramdomyt = (Math.floor(Math.random() * (20-0)+1)*10)
+      i = 0
+    }
+
+  </script>
+</body>
+</html>
